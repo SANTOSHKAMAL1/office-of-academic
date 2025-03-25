@@ -1,0 +1,28 @@
+{% extends 'base/base.html' %}
+{% block content %}
+
+  <div class="card">
+      <div class="card-header">
+          <i class="fa fa-align-justify"></i> Schools ListT
+      </div>
+      <div class="card-body">
+          <!-- Use a grid layout for the schools -->
+          <div class="row">
+              {% for designation in designation %}
+              <div class="col-md-4 mb-3">
+                  <!-- Each school is displayed in a separate box -->
+                  <div class="card">
+                      <div class="card-body">
+                          <!-- Link to school.html with designation.id -->
+                          <h5 class="card-title">
+                              <a href="department?id={{ designation.id }}">{{ designation.name }}</a>
+                          </h5>
+                      </div>
+                  </div>
+              </div>
+              {% endfor %}
+          </div>
+      </div>
+  </div>
+
+{% endblock %}

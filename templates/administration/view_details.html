@@ -1,0 +1,48 @@
+{% extends 'base/base.html' %}
+{% block content %}
+
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-header">
+            <h4>Designation Details List</h4>
+        </div>
+        <div class="card-body">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Campus</th>
+                        <th>Graduate Type</th>
+                        <th>Degree</th>
+                        <th>Director</th>
+                        <th>Director Email</th>
+                        <th>Deputy Director</th>
+                        <th>Deputy Email</th>
+                        <th>HOD</th>
+                        <th>HOD Email</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for detail in details %}
+                    <tr>
+                        <td>{{ detail.campus }}</td>
+                        <td>{{ detail.get_graduate_type_display }}</td>
+                        <td>{{ detail.degree }}</td>
+                        <td>{{ detail.director }}</td>
+                        <td>{{ detail.director_email }}</td>
+                        <td>{{ detail.deputy_director }}</td>
+                        <td>{{ detail.deputy_email }}</td>
+                        <td>{{ detail.hod }}</td>
+                        <td>{{ detail.hod_email }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="9" class="text-center">No records found.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

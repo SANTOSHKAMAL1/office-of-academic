@@ -1,0 +1,233 @@
+{% extends 'base/base.html' %}
+
+{% block content %}
+{% load static %}
+
+<style>
+    body {
+        background: url("{% static 'src/img/jainimg.jpg' %}") no-repeat center center fixed;
+        background-size: cover;
+        font-family: 'Poppins', sans-serif;
+        color: #102770;
+        overflow-x: hidden;
+        transition: background 0.8s ease-in-out;
+    }
+
+    .toggle-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 30px auto;
+    }
+
+    .toggle-button {
+        display: flex;
+        align-items: center;
+        width: 250px;
+        background: #5a67d8;
+        border-radius: 25px;
+        padding: 5px;
+        cursor: pointer;
+        position: relative;
+    }
+
+    .toggle-button div {
+        flex: 1;
+        text-align: center;
+        color: white;
+        font-weight: bold;
+        padding: 10px;
+        transition: 0.3s;
+    }
+
+    .toggle-active {
+        background: #ffcc00;
+        color: #102770;
+        border-radius: 20px;
+    }
+
+    .card-container {
+        perspective: 1000px;
+        display: flex;
+        justify-content: center;
+        margin-top: 50px;
+    }
+
+    .card {
+        width: 700px;
+        min-height: 400px;
+        padding: 20px;
+        text-align: center;
+        background: rgba(255, 255, 255, 0.15);
+        border-radius: 15px;
+        backdrop-filter: blur(10px);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+        transition: transform 0.6s ease-in-out;
+        transform-style: preserve-3d;
+        position: relative;
+    }
+
+    .flip-card {
+        transform: rotateY(180deg);
+    }
+
+    .card-content {
+        position: absolute;
+        width: 95%;
+        height: 100%;
+        backface-visibility: hidden;
+    }
+
+    .back-content {
+        transform: rotateY(180deg);
+    }
+
+    .programs {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 10px;
+    }
+
+    .program-section {
+        text-align: left;
+        width: 48%;
+    }
+
+    .program-section a {
+        display: block;
+        text-decoration: none;
+        color: #102770;
+        font-weight: bold;
+        background: rgba(255, 255, 255, 0.3);
+        padding: 8px 15px;
+        border-radius: 5px;
+        margin: 5px 0;
+        transition: background 0.3s ease-in-out, transform 0.2s;
+    }
+
+    .program-section a:hover {
+        background: #ffcc00;
+        color: #102770;
+        transform: scale(1.05);
+    }
+
+    .director-info {
+        margin-top: 20px;
+        padding: 15px;
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 10px;
+        font-weight: bold;
+        text-align: left;
+    }
+
+    .director-info i {
+        margin-right: 8px;
+    }
+</style>
+
+<div class="toggle-container">
+    <div class="toggle-button" onclick="toggleCity()">
+        <div id="bangalore">🏙️ Bangalore</div>
+        <div id="kochi" class="toggle-active">🌳 Kochi</div>
+    </div>
+</div>
+
+<div class="card-container">
+    <div class="card" id="campus-card">
+        <div class="card-content front-content">
+            <h3 id="campus-heading">CMS Business School Kochi</h3>
+            
+            <div class="programs">
+                <div id="ug-programs" class="program-section"></div>
+                <div id="pg-programs" class="program-section"></div>
+            </div>
+            
+            <div id="director-details" class="director-info">
+                <p><i class="fas fa-user"></i> <strong>Director:</strong> <span id="director-name"></span></p>
+                <p><i class="fas fa-user"></i> <strong>Deputy Director:</strong> <span id="deputy-name"></span></p>
+                <p><i class="fas fa-user"></i> <strong>HOD:</strong> <span id="hod-name"></span></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    let currentCity = "Kochi";
+
+    const campusData = {
+        "Kochi": {
+            "heading": "CMS Business School Kochi",
+            "UG": { "Undergraduate": "/kochibba" },
+            "PG": { "Postgraduate": "/kochimba" },
+            "bg": "{% static 'src/img/kl2.png' %}"
+        },
+        "Bangalore": {
+            "heading": "CMS Business School Bangalore",
+            "UG": { "Undergraduate": "/bangalorebba" },
+            "PG": { "Postgraduate": "/bangaloremba" },
+            "bg": "{% static 'src/img/bangalore.png' %}"
+        }
+    };
+
+    const directorDetails = {
+        "Kochi": {
+            "Director": "Dr. Dinesh Nilkant",
+            "Deputy Director": "Dr. Simmy Kurien",
+            "HOD": "Dr. Monoo John"
+        },
+        "Bangalore": {
+            "Director": "Dr. Dinesh Nilkant",
+            "Deputy Director": "NIL",
+            "HOD": "Dr. Harold Andrew Patrick (Dean & HoD)"
+        }
+    };
+
+    function toggleCity() {
+        currentCity = currentCity === "Kochi" ? "Bangalore" : "Kochi";
+
+        document.getElementById("kochi").classList.toggle("toggle-active");
+        document.getElementById("bangalore").classList.toggle("toggle-active");
+
+        document.getElementById("campus-card").classList.add("flip-card");
+
+        setTimeout(() => {
+            updateDetails();
+            document.getElementById("campus-card").classList.remove("flip-card");
+        }, 600);
+    }
+
+    function updateDetails() {
+        document.getElementById("campus-heading").textContent = campusData[currentCity].heading;
+
+        const ugProgramsDiv = document.getElementById("ug-programs");
+        ugProgramsDiv.innerHTML = "";
+        for (const [program, url] of Object.entries(campusData[currentCity]["UG"])) {
+            let link = document.createElement("a");
+            link.href = url;
+            link.textContent = program;
+            link.target = "_blank";
+            ugProgramsDiv.appendChild(link);
+        }
+
+        const pgProgramsDiv = document.getElementById("pg-programs");
+        pgProgramsDiv.innerHTML = "";
+        for (const [program, url] of Object.entries(campusData[currentCity]["PG"])) {
+            let link = document.createElement("a");
+            link.href = url;
+            link.textContent = program;
+            link.target = "_blank";
+            pgProgramsDiv.appendChild(link);
+        }
+
+        document.body.style.backgroundImage = `url(${campusData[currentCity]["bg"]})`;
+
+        const details = directorDetails[currentCity];
+        document.getElementById("director-name").textContent = details["Director"];
+        document.getElementById("deputy-name").textContent = details["Deputy Director"];
+        document.getElementById("hod-name").textContent = details["HOD"];
+    }
+
+    updateDetails();
+</script>
+
+{% endblock %}

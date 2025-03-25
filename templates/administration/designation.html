@@ -1,0 +1,166 @@
+{% extends 'base/academicaffairs.html' %}
+{% block content %}
+{% load static %}
+
+<style>
+    body {
+      
+        background-size: cover;
+        font-family: 'Poppins', sans-serif;
+        color: #102770;
+        overflow-x: hidden;
+        transition: background 0.8s ease-in-out;
+    }
+
+    /* Faculty of Management Studies - Centered and Bold */
+    .faculty-container {
+        text-align: center;
+        margin: 40px 0;
+    }
+
+    .faculty-container h1 {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: white;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    }
+
+    /* School List Cards - Centered and Styled */
+    .card-container {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 20px;
+        padding: 20px;
+    }
+
+    .card {
+        border-radius: 12px !important;
+        overflow: hidden;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        transition: transform 0.2s ease-in-out;
+        background: rgba(255, 255, 255, 0.15);
+        backdrop-filter: blur(10px);
+        width: 300px;
+        color: white;
+    }
+
+    .card:hover {
+        transform: scale(1.02);
+    }
+
+    .card-body {
+        background: linear-gradient(135deg, #f7f6f8, #f5f6f7);
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        height: 100%;
+    }
+
+    .card-body h5 {
+        font-size: 1.25rem;
+        font-weight: 600;
+        margin-bottom: 10px;
+    }
+
+    .card-body a {
+        color: rgb(16, 15, 15);
+        text-decoration: none;
+    }
+
+    .card-body a.btn {
+        background: white;
+        color: #6a11cb;
+        border: none;
+        font-weight: 600;
+        padding: 8px 16px;
+        border-radius: 8px;
+        transition: background 0.3s ease;
+    }
+
+    .card-body a.btn:hover {
+        background: #f0f0f0;
+    }
+
+    /* Add School Form - Smaller Size */
+    .add-school-container {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        width: 200px;
+        z-index: 1000;
+    }
+
+    .add-school-container .card {
+        border-radius: 8px !important;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        background: rgba(255, 255, 255, 0.15);
+        backdrop-filter: blur(10px);
+        font-size: 0.8rem;
+    }
+
+    .add-school-container h6 {
+        font-size: 0.9rem;
+    }
+</style>
+<<div class="faculty-container">
+    <h1>Faculty of Management Studies</h1>
+</div>
+
+<!-- School List Cards - Centered -->
+<div class="card-container">
+    {% for designation in designation %}
+    <div class="card">
+        <div class="card-body">
+            <h5>
+                <a href="department?id={{ designation.id }}">
+                    {{ designation.name }}
+                </a>
+            </h5>
+            <a href="department?id={{ designation.id }}" class="btn">View Details</a>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<!-- Add School Form in Footer Right
+<div class="add-school-container">
+    <div class="card">
+        <div class="card-header bg-primary text-white text-center" style="border-top-left-radius: 8px; border-top-right-radius: 8px;">
+            <h6>Add School</h6>
+        </div>
+        <div class="card-body">
+            <form action="" method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    {{ forms.as_p }}
+                </div>
+                <button type="submit" class="btn btn-success btn-block">Submit</button>
+            </form>
+        </div>
+    </div>
+</div>
+ -->
+
+
+
+<!-- Add School Form in Footer Right
+<div class="add-school-container">
+    <div class="card">
+        <div class="card-header bg-primary text-white text-center" style="border-top-left-radius: 8px; border-top-right-radius: 8px;">
+            <h6>Add School</h6>
+        </div>
+        <div class="card-body">
+            <form action="" method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    {{ forms.as_p }}
+                </div>
+                <button type="submit" class="btn btn-success btn-block">Submit</button>
+            </form>
+        </div>
+    </div>
+</div> -->
+
+{% endblock %}

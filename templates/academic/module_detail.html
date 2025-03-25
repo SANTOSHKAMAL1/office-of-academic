@@ -1,0 +1,230 @@
+{% extends 'base/schoolengineeringbase.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4 text-center">{{ module.modulelist }} (Semester {{ module.semester }})</h2>
+
+    <div class="card shadow-lg p-4">
+        <h4 class="text-primary d-flex align-items-center">
+            Year-wise Teaching Learning Evaluation Process (TLEP) 
+            <i class="fa-solid fa-plus-circle plus-icon" onclick="toggleUploadForm()"></i>
+        </h4>
+
+        {% if year_pdfs %}
+        <ul class="list-group">
+            {% for pdf_entry in year_pdfs %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                <div>
+                    <strong class="highlight-year">Year:</strong> {{ pdf_entry.year }} <br>
+                    <strong>PDF:</strong>
+                    {% if pdf_entry.pdf %}
+                    <a href="{{ pdf_entry.pdf.url }}" target="_blank" class="download-icon">
+                        <i class="fa-solid fa-arrow-down"></i>
+                    </a>
+                    {% else %}
+                    No PDF uploaded.
+                    {% endif %}
+                    <br>
+                    <strong>Submitted by:</strong> {{ pdf_entry.submitted_by|default:"N/A" }}
+                </div>
+                
+                <!-- DELETE BUTTON with JS Call -->
+                <button class="delete-btn" onclick="confirmDelete('{{ pdf_entry.id }}')">
+                    <i class="fa-solid fa-trash"></i>
+                </button>
+            </li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p>No PDFs uploaded yet.</p>
+        {% endif %}
+
+       <!-- Upload Form (Initially Hidden) -->
+<div id="upload-form" class="upload-form mt-4">
+    <h5>Upload PDF for a Year</h5>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="id_year">Year:</label>
+            <input type="text" name="year" id="id_year" class="form-control rounded-input" placeholder="Enter year">
+        </div>
+        <div class="form-group">
+            <label for="id_pdf">PDF:</label>
+            <input type="file" name="pdf" id="id_pdf" class="form-control-file rounded-input">
+        </div>
+        <div class="form-group">
+            <label for="id_submitted_by">Submitted By:</label>
+            <input type="text" name="submitted_by" id="id_submitted_by" class="form-control rounded-input" placeholder="Enter submitter name">
+        </div>
+        <button type="submit" class="btn btn-success upload-btn">Upload</button>
+    </form>
+</div>
+
+
+    <div class="mt-4 text-center">
+        <a href="{% url 'specialization_detail' module.specialization.id %}" class="btn btn-primary">Back</a>
+    </div>
+</div>
+
+<!-- ✅ Updated CSS Styling -->
+<style>
+    /* General Styling */
+    body {
+        background-color: #f8f9fa;
+        font-family: 'Poppins', sans-serif;
+    }
+
+    h2 {
+        font-size: 2rem;
+        font-weight: 700;
+        color: #2c3e50;
+        text-transform: capitalize;
+    }
+
+    .card {
+        border-radius: 10px;
+        padding: 20px;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Year Highlight */
+    .highlight-year {
+        font-weight: bold;
+        color: #d9534f;
+        font-size: 1.2rem;
+    }
+
+    /* Upload Form */
+    .upload-form {
+        display: none;
+        padding: 15px;
+        background: #f4f4f4;
+        border-radius: 10px;
+        max-width: 400px;
+        margin: auto;
+        transition: all 0.3s ease-in-out;
+    }
+
+    .form-group {
+        margin-bottom: 10px;
+    }
+
+    .rounded-input {
+        width: 100%;
+        padding: 8px;
+        border-radius: 20px;
+        border: 1px solid #ccc;
+    }
+
+    .upload-btn {
+        width: 100%;
+        border-radius: 20px;
+        padding: 8px;
+        font-size: 1rem;
+    }
+
+    /* Buttons */
+    .btn-success {
+        background-color: #28a745;
+        border: none;
+        padding: 8px 20px;
+        font-size: 1rem;
+        border-radius: 20px;
+        transition: background 0.3s ease-in-out;
+    }
+
+    .btn-success:hover {
+        background-color: #218838;
+    }
+
+    .btn-primary {
+        background-color: #032344;
+        border: none;
+        padding: 10px 20px;
+        font-size: 1rem;
+        border-radius: 20px;
+        transition: background 0.3s ease-in-out, transform 0.2s ease-in-out;
+    }
+
+    .btn-primary:hover {
+        background-color: #021d38;
+        transform: scale(1.05);
+    }
+
+    /* Plus Icon */
+    .plus-icon {
+        cursor: pointer;
+        font-size: 1.5rem;
+        margin-left: 10px;
+        color: #28a745;
+        transition: transform 0.3s ease-in-out;
+    }
+
+    .plus-icon:hover {
+        transform: scale(1.2);
+    }
+
+    /* Trash Icon */
+    .delete-btn {
+        background: none;
+        border: none;
+        font-size: 1.2rem;
+        cursor: pointer;
+        color: #d9534f;
+        transition: transform 0.3s ease-in-out;
+    }
+
+    .delete-btn:hover {
+        transform: scale(1.2);
+    }
+
+    /* Download Icon */
+    .download-icon {
+        font-size: 1.2rem;
+        color: #05274b;
+        text-decoration: none;
+        margin-left: 5px;
+        transition: transform 0.3s ease-in-out;
+    }
+
+    .download-icon:hover {
+        transform: scale(1.2);
+    }
+</style>
+
+<!-- ✅ JavaScript for Delete & Upload Form -->
+<script>
+    // Toggle Upload Form Visibility
+    function toggleUploadForm() {
+        const form = document.getElementById('upload-form');
+        form.style.display = form.style.display === "block" ? "none" : "block";
+    }
+
+    // ✅ Function to handle PDF delete request (Using POST)
+    function confirmDelete(pdfId) {
+        if (confirm("Are you sure you want to delete this PDF?")) {
+            fetch(`/academic/delete_pdf/${pdfId}/`, {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': getCSRFToken(),
+                },
+            }).then(response => {
+                if (response.ok) {
+                    location.reload();  // Reload page after successful deletion
+                } else {
+                    alert("Failed to delete PDF.");
+                }
+            }).catch(error => console.error("Error:", error));
+        }
+    }
+
+    // ✅ Function to get CSRF token for POST request
+    function getCSRFToken() {
+        return document.querySelector('[name=csrfmiddlewaretoken]').value;
+    }
+</script>
+
+<!-- ✅ Font Awesome for Icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+{% endblock %}

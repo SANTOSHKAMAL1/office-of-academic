@@ -1,0 +1,29 @@
+{% extends 'base/base.html' %}
+{% block content %}
+
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-header">
+            <i class="fa fa-align-justify"></i> School of Management
+        </div>
+        <div class="card-body">
+            <div class="list-container">
+                {% for designation in designations %}
+                <div class="mb-3">
+                    <div class="card text-center shadow-lg">
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <a href="{% url 'designation_detail' designation.id %}" class="text-decoration-none">
+                                    {{ designation.name }}
+                                </a>
+                            </h5>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

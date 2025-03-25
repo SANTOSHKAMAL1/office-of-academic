@@ -1,0 +1,22 @@
+{% extends 'base/base.html' %}
+{% block content %}
+<div class="container">
+    <h2>{{ cse.department }} - {{ cse.get_location_display }}</h2>
+    <ul>
+        <li>Graduation: {{ cse.get_graduation_display }}</li>
+        <li>Degree: {{ cse.get_degree_display }}</li>
+        <li>Director: {{ cse.director_name }} ({{ cse.director_email }})</li>
+        <li>Deputy Director: {{ cse.deputy_director_name }} ({{ cse.deputy_director_email }})</li>
+        <li>HOD: {{ cse.hod_name }} ({{ cse.hod_email }})</li>
+        <li>Employee Count: {{ cse.employee_count }}</li>
+        <li>Student Count: {{ cse.student_count }}</li>
+        <li>
+            Specializations:
+            {% for specialization in cse.specializations.all %}
+                {{ specialization.name }}{% if not forloop.last %}, {% endif %}
+            {% endfor %}
+        </li>
+    </ul>
+    <a href="{% url 'cse_list' %}" class="btn btn-secondary">Back to List</a>
+</div>
+{% endblock %}

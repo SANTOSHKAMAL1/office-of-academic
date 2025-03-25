@@ -1,0 +1,65 @@
+{% extends 'base/schoolengineeringbase.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Computer Science and Engineering Records</h2>
+    <table class="table table-bordered mt-3">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Location</th>
+                <th>Graduation</th>
+                <th>Degree</th>
+                <th>Director</th>
+                <th>Deputy Director</th>
+                <th>HOD</th>
+                <th>Specialization</th>
+                <th>Employee Count</th>
+                <th>Student Count</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for record in records %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ record.get_location_display }}</td>
+                <td>{{ record.get_graduation_display }}</td>
+                <td>{{ record.get_degree_display }}</td>
+                <td>
+                    {{ record.director_name }}  
+                    {% if record.director_email %}
+                        ({{ record.director_email }})
+                    {% endif %}
+                </td>
+                <td>
+                    {{ record.deputy_director_name }}  
+                    {% if record.deputy_director_email %}
+                        ({{ record.deputy_director_email }})
+                    {% endif %}
+                </td>
+                <td>
+                    {{ record.hod_name }}  
+                    {% if record.hod_email %}
+                        ({{ record.hod_email }})
+                    {% endif %}
+                </td>
+                <td>
+                    {% for specialization in record.specializations.all %}
+                        {{ specialization.name }}{% if not forloop.last %}, {% endif %}
+                    {% empty %}
+                        <span class="text-muted">No Specialization</span>
+                    {% endfor %}
+                </td>
+                <td>{{ record.employee_count }}</td>
+                <td>{{ record.student_count }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="10" class="text-center">No records found</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

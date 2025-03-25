@@ -1,0 +1,170 @@
+{% extends 'base/schoolengineeringbase.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4 text-center">{{ specialization.name }}</h2>
+
+    <div class="card shadow-lg p-4">
+        <h4 class="text-primary">Modules under {{ specialization.name }}</h4>
+
+        <!-- Specialization Description -->
+        <div class="description-box p-3 mt-3">
+            <p>{{ specialization.description }}</p>
+        </div>
+
+        <!-- Grouping Modules by Semester -->
+        {% regroup modules by semester as semester_groups %}
+
+        <div class="semester-container mt-4">
+            {% for semester in semester_groups %}
+            <div class="semester-column">
+                <div class="semester-header" onclick="toggleDropdown('semester-{{ semester.grouper }}')">
+                    <strong>Semester {{ semester.grouper }}</strong>
+                    <span class="arrow">▼</span>
+                </div>
+                <ul id="semester-{{ semester.grouper }}" class="list-group dropdown-content">
+                    {% for module in semester.list %}
+                    <li class="list-group-item">
+                        <a href="{% url 'module_detail' module.id %}" class="module-link">{{ module.modulelist }}</a>
+                    </li>
+                    {% empty %}
+                    <li class="list-group-item">No modules available.</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% empty %}
+            <div class="semester-column">
+                <p>No semesters available.</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="mt-4 text-center">
+        <a href="{% url 'cse_list' %}" class="btn btn-primary">Back</a>
+    </div>
+</div>
+
+<!-- ✅ Updated CSS Styling -->
+<style>
+    /* General Styling */
+    body {
+        background-color: #f8f9fa;
+        font-family: 'Poppins', sans-serif;
+    }
+
+    h2 {
+        font-size: 2rem;
+        font-weight: 700;
+        color: #2c3e50;
+        text-transform: capitalize;
+    }
+
+    .description-box {
+        background-color: #f4f4f4;
+        border-left: 5px solid #031f3caa;
+        font-size: 1.1rem;
+        font-style: italic;
+        color: #180942;
+        border-radius: 10px;
+    }
+
+    /* ✅ Styling for Semesters - Next to Each Other */
+    .semester-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        justify-content: space-between;
+    }
+
+    .semester-column {
+        flex: 1;
+        min-width: 280px;
+        background: #fff;
+        border-radius: 10px;
+        padding: 10px;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease-in-out;
+    }
+
+    .semester-column:hover {
+        transform: translateY(-5px);
+    }
+
+    .semester-header {
+        background-color: #032344;
+        color: white;
+        font-size: 1.2rem;
+        font-weight: bold;
+        padding: 10px;
+        cursor: pointer;
+        border-radius: 5px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        transition: background 0.3s ease-in-out;
+    }
+
+    .semester-header:hover {
+        background-color: #021d38;
+    }
+
+    .semester-header .arrow {
+        font-size: 0.8rem;
+        transition: transform 0.3s ease-in-out;
+    }
+
+    /* ✅ Dropdown Animation */
+    .dropdown-content {
+        display: none;
+        margin-top: 10px;
+        overflow: hidden;
+        transition: max-height 0.5s ease-in-out;
+    }
+
+    /* ✅ Module Links */
+    .module-link {
+        text-decoration: none;
+        color: #007bff;
+        font-weight: bold;
+        transition: color 0.3s ease-in-out;
+    }
+
+    .module-link:hover {
+        text-decoration: underline;
+        color: #0056b3;
+    }
+
+    /* ✅ Back Button Styling */
+    .btn-primary {
+        background-color: #032344;
+        border: none;
+        padding: 10px 20px;
+        font-size: 1rem;
+        border-radius: 20px;
+        transition: background 0.3s ease-in-out, transform 0.2s ease-in-out;
+    }
+
+    .btn-primary:hover {
+        background-color: #021d38;
+        transform: scale(1.05);
+    }
+</style>
+
+<!-- ✅ JavaScript for Smooth Dropdown Animation -->
+<script>
+    function toggleDropdown(id) {
+        const dropdown = document.getElementById(id);
+        const arrow = dropdown.previousElementSibling.querySelector('.arrow');
+        
+        if (dropdown.style.display === "block") {
+            dropdown.style.display = "none";
+            arrow.style.transform = "rotate(0deg)";
+        } else {
+            dropdown.style.display = "block";
+            arrow.style.transform = "rotate(180deg)";
+        }
+    }
+</script>
+{% endblock %}

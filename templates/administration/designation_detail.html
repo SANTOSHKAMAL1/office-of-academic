@@ -1,0 +1,187 @@
+{% extends 'base/base.html' %}
+
+{% block content %}
+{% load static %}
+
+<style>
+    body {
+        background: url("{% static 'src/img/jainimg.jpg' %}") no-repeat center center fixed;
+        background-size: cover;
+        font-family: 'Poppins', sans-serif;
+        color: #102770;
+        overflow-x: hidden;
+        transition: background 0.8s ease-in-out;
+    }
+
+    .toggle-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 30px auto;
+    }
+
+    .toggle-button {
+        display: flex;
+        align-items: center;
+        width: 220px;
+        background: #5a67d8;
+        border-radius: 25px;
+        padding: 5px;
+        cursor: pointer;
+        position: relative;
+    }
+
+    .toggle-button div {
+        flex: 1;
+        text-align: center;
+        color: white;
+        font-weight: bold;
+        padding: 10px;
+        transition: 0.3s;
+    }
+
+    .toggle-active {
+        background: #ffcc00;
+        color: #102770;
+        border-radius: 20px;
+    }
+
+    .card-container {
+        perspective: 1000px;
+        display: flex;
+        justify-content: center;
+        margin-top: 50px;
+    }
+
+    .card {
+        width: 400px;
+        height: 150px;
+        position: relative;
+        transform-style: preserve-3d;
+        transition: transform 0.6s ease-in-out;
+        background: rgba(255, 255, 255, 0.15);
+        border-radius: 15px;
+        backdrop-filter: blur(10px);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+        padding: 20px;
+        text-align: center;
+    }
+
+    .card.flip {
+        transform: rotateY(180deg);
+    }
+
+    .programs {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .programs a {
+        text-decoration: none;
+        color: #102770;
+        font-weight: bold;
+        background: rgba(255, 255, 255, 0.3);
+        padding: 8px 15px;
+        border-radius: 5px;
+        display: block;
+        transition: background 0.3s ease-in-out, transform 0.2s;
+    }
+
+    .programs a:hover {
+        background: #ffcc00;
+        color: #102770;
+        transform: scale(1.05);
+    }
+</style>
+
+<div class="toggle-container">
+    <div class="toggle-button" onclick="toggleCity()">
+        <div id="bangalore">🏙️ Bangalore</div>
+        <div id="kochi" class="toggle-active">🌳 Kochi</div>
+        
+    </div>
+</div>
+
+<div class="card-container">
+    <div class="card" id="campus-card">
+        <h3 id="campus-heading">CMS Business School KochiI</h3> <!-- Dynamic Heading -->
+
+        <div class="programs">
+            <div id="ug-programs"></div>
+            <div id="pg-programs"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    let currentCity = "Kochi";
+
+    const campusData = {
+        "Kochi": {
+            "heading": "CMS Business School Kochi",
+            "UG": {
+                "undergraduate_kochi": "/kochibba"
+            },
+            "PG": {
+                "postgraduate_kochi": "/kochimba"
+            },
+            "bg": "{% static 'src/img/kl2.png' %}"
+        },
+        "Bangalore": {
+            "heading": "CMS Business School Bangalore",
+            "UG": {
+                "undergraduate": "/bangalorebba"
+            },
+            "PG": {
+                "postgraduate": "/bangaloremba"
+            },
+            "bg": "{% static 'src/img/bangalore.png' %}"
+        }
+    };
+
+    function toggleCity() {
+        currentCity = currentCity === "Kochi" ? "Bangalore" : "Kochi";
+
+        document.getElementById("kochi").classList.toggle("toggle-active");
+        document.getElementById("bangalore").classList.toggle("toggle-active");
+
+        document.getElementById("campus-card").classList.add("flip");
+        setTimeout(() => {
+            updateDetails();
+            document.getElementById("campus-card").classList.remove("flip");
+        }, 600);
+    }
+
+    function updateDetails() {
+        document.getElementById("campus-heading").textContent = campusData[currentCity].heading;
+
+        const ugProgramsDiv = document.getElementById("ug-programs");
+        ugProgramsDiv.innerHTML = "";
+        for (const [program, url] of Object.entries(campusData[currentCity]["UG"])) {
+            let link = document.createElement("a");
+            link.href = url;
+            link.textContent = program;
+            link.target = "_blank";
+            ugProgramsDiv.appendChild(link);
+        }
+
+        const pgProgramsDiv = document.getElementById("pg-programs");
+        pgProgramsDiv.innerHTML = "";
+        for (const [program, url] of Object.entries(campusData[currentCity]["PG"])) {
+            let link = document.createElement("a");
+            link.href = url;
+            link.textContent = program;
+            link.target = "_blank";
+            pgProgramsDiv.appendChild(link);
+        }
+
+        document.body.style.backgroundImage = `url(${campusData[currentCity]["bg"]})`;
+    }
+
+    updateDetails();
+</script>
+
+
+
+{% endblock %}

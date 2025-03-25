@@ -1,0 +1,230 @@
+{% extends 'base/academicaffairs.html' %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Academic Affairs</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <style>
+        /* General Styling */
+        body {
+            background-color: #f9f9f9;
+            font-family: 'Poppins', sans-serif;
+            color: #444;
+        }
+
+        /* Header Styling */
+        h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #2d3e50;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 2rem;
+            position: relative;
+            animation: fadeIn 1.2s ease;
+        }
+
+        h2::after {
+            content: '';
+            width: 80px;
+            height: 4px;
+            background-color: #7fb3d5;
+            display: block;
+            margin: 10px auto;
+            border-radius: 2px;
+        }
+
+        /* Card Styling */
+        .card {
+            border: none;
+            border-radius: 12px;
+            overflow: hidden;
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+            color: #333;
+            cursor: pointer;
+            animation: slideUp 0.6s ease;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        .card:hover {
+            transform: translateY(-10px) scale(1.03);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease;
+            filter: brightness(1.05);
+        }
+
+        /* Card Background Colors */
+        .engineering {
+            background: linear-gradient(135deg, #85c1e9, #d6eaf8);
+        }
+
+        .social-science {
+            background: linear-gradient(135deg, #f5b7b1, #fadbd8);
+        }
+
+        .applied-science {
+            background: linear-gradient(135deg, #82e0aa, #d5f5e3);
+        }
+
+        .commerce {
+            background: linear-gradient(135deg, #f9e79f, #fcf3cf);
+        }
+
+        .management {
+            background: linear-gradient(135deg, #a9cce3, #eaf2f8);
+        }
+
+        .design {
+            background: linear-gradient(135deg, #f8c471, #fdebd0);
+        }
+
+        /* Card Title & Text Styling */
+        .card-body {
+            padding: 1.8rem;
+            text-align: center;
+            backdrop-filter: blur(5px);
+            background-color: rgba(255, 255, 255, 0.6);
+            border-radius: 12px;
+        }
+
+        .card-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 0.8rem;
+        }
+
+        .card-text {
+            font-size: 1rem;
+            font-weight: 400;
+            color: #666;
+            margin-bottom: 1.2rem;
+        }
+
+        /* Hover Animation */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            h2 {
+                font-size: 2rem;
+            }
+
+            .card {
+                margin-bottom: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-4">
+        <h2 class="text-center">Academic Affairs</h2>
+        <div class="row">
+            <!-- Faculty of Engineering and Technology -->
+            <div class="col-md-4 mb-4">
+                <a href="{% url 'engineering_and_technology' %}" class="card-link">
+                    <div class="card engineering h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">Faculty of Engineering and Technology</h5>
+                            <p class="card-text">Engineering and Technology</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            
+            <!-- Faculty of Arts, Humanities and Social Sciences -->
+            <div class="col-md-4 mb-4">
+                <a href="social.html" class="card-link">
+                    <div class="card social-science h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">Faculty of Arts, Humanities and Social Sciences</h5>
+                            <p class="card-text">Arts, Humanities and Social Sciences</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Faculty of Basic and Applied Sciences -->
+            <div class="col-md-4 mb-4">
+                <a href="engineering.html" class="card-link">
+                    <div class="card applied-science h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">Faculty of Basic and Applied Sciences</h5>
+                            <p class="card-text">Basic and Applied Sciences</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <div class="row mt-3">
+            <!-- Faculty of Commerce -->
+            <div class="col-md-4 mb-4">
+                <a href="technology.html" class="card-link">
+                    <div class="card commerce h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">Faculty of Commerce</h5>
+                            <p class="card-text">Advance in modern Commerce</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Faculty of Management Studies -->
+            <div class="col-md-4 mb-4">
+                <a href="Management_Studies.html" class="card-link">
+                    <div class="card management h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">Faculty of Management Studies</h5>
+                            <p class="card-text">Enhance knowledge</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Faculty of Creativity and Design -->
+            <div class="col-md-4 mb-4">
+                <a href="tamil.html" class="card-link">
+                    <div class="card design h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">Faculty of Creativity and Design</h5>
+                            <p class="card-text">Explore Creativity and Design</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+{% endblock %}
+                 

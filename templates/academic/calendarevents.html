@@ -1,0 +1,61 @@
+    {% extends 'base/base.html' %}
+    {% block content %}
+
+    <h2>Calendar Events</h2>
+
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Save Event</button>
+    </form>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Event Name</th>
+                <th>Event Date</th>
+                <th>Description</th>
+                <th>Faculty</th>
+                <th>Venue</th>
+                <th>Coordinator</th>
+                <th>Image</th>
+                <th>PDF</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for calendarevents in calendarevents %}
+            <tr>
+                <td>{{ calendarevents.event_name }}</td>
+                <td>{{calendarevents.event_date }}</td>
+                <td>{{ event.description }}</td>
+                <td>{{ event.faculty }}</td>
+                <td>{{ event.venue }}</td>
+                <td>{{ event.coordinator }}</td>
+                <td>
+                    {% if event.image %}
+                        <img src="{{ event.image.url }}" alt="Event Image" width="50">
+                    {% else %}
+                        No Image
+                    {% endif %}
+                </td>
+                <td>
+                    {% if event.pdf %}
+                        <a href="{{ event.pdf.url }}" target="_blank">View PDF</a>
+                    {% else %}
+                        No PDF
+                    {% endif %}
+                </td>
+                <td>
+                    <!-- Add actions like edit or delete here -->
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="9">No events found.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    {% endblock %}

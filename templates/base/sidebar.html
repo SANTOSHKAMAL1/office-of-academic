@@ -1,0 +1,84 @@
+{% load static %}
+<style>
+.styled-text {
+    display: inline-block;
+    font-weight: bold; /* Make all letters bold */
+    text-transform: uppercase; /* Ensure all letters are uppercase */
+    font-size: 0.9em; /* Slightly reduce size */
+    white-space: nowrap; /* Prevent text from breaking into a new line */
+}
+
+.small-bracket {
+    font-weight: normal; /* Make bracket text normal */
+    font-size: 0.8em; /* Slightly smaller than main text */
+    color: #aaa; /* Light gray for distinction */
+}
+</style>
+
+<div class="sidebar">
+    <nav class="sidebar-nav">
+        <ul class="nav">
+            <!-- Home -->
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'home' %}">
+                    <i class="icon-home"></i> Home
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'jainevent' %}">
+                    <i class="icon-calendar"></i> Events
+                </a>
+            </li>
+            <!-- Knowledge Management Architecture -->
+            <li class="nav-item nav-dropdown active" id="knowledgeManagement">
+                <a class="nav-link nav-dropdown-toggle d-flex align-items-center" href="#" onclick="toggleMenu()">
+                    <i class="nav-icon fa fa-university"></i> 
+                    <span class="styled-text">KMA</span> 
+                    
+                </a>
+            </li>
+            
+            <!-- Collapsible Sections -->
+            <div id="menuSections" style="display: none;">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'facultyofmanagement' %}">
+                        <i class="nav-icon fa fa-plus-circle"></i> Academic Affairs
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'designation' %}">
+                        <i class="fa fa-plus-circle"></i> Data Reference
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'district' %}">
+                        <i class="fa fa-plus-circle"></i> Digital Transformation
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'jainevent' %}">
+                        <i class="fa fa-plus-circle"></i> Assessment And Evaluation
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'union' %}">
+                        <i class="fa fa-plus-circle"></i> Capacity Building
+                    </a>
+                </li>
+            </div>
+        </ul>
+    </nav>
+
+    <button class="sidebar-minimizer brand-minimizer" type="button"></button>
+
+    {% block sidebar %}
+    {% endblock %}
+</div>
+
+<!-- JavaScript to toggle menu -->
+<script>
+    function toggleMenu() {
+        var menu = document.getElementById("menuSections");
+        menu.style.display = menu.style.display === "none" ? "block" : "none";
+    }
+</script>

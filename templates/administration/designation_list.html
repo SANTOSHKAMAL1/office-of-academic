@@ -1,0 +1,30 @@
+<!-- designation_list.html -->
+{% extends 'base/base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>List of Designations</h2>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Graduate</th>
+                <th>Degree</th>
+                <th>Campus</th>
+                <th>Director</th>
+                <th>HOD</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for designation in designations %}
+            <tr>
+                <td>{{ designation.graduate }}</td>
+                <td>{{ designation.degree }}</td>
+                <td>{{ designation.campus }}</td>
+                <td>{{ designation.director }}</td>
+                <td>{{ designation.hod }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
